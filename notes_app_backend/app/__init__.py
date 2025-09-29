@@ -15,6 +15,8 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 app.config["API_TITLE"] = "Notes API - Ocean Professional"
 app.config["API_VERSION"] = "v1"
 app.config["OPENAPI_VERSION"] = "3.0.3"
+
+# Serve docs at /docs with Swagger UI (fastapi-like setup via flask-smorest)
 app.config["OPENAPI_URL_PREFIX"] = "/docs"
 app.config["OPENAPI_SWAGGER_UI_PATH"] = ""
 app.config["OPENAPI_SWAGGER_UI_URL"] = "https://cdn.jsdelivr.net/npm/swagger-ui-dist/"

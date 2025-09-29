@@ -20,6 +20,13 @@ pip install -r requirements.txt
 python run.py
 ```
 
-Docs available at `/docs` (Swagger UI).
+The service binds to `0.0.0.0:3001` for container readiness. Docs available at `/docs` (Swagger UI).
+
+Optional production run (example):
+
+```
+# from notes_app_backend/
+gunicorn -w 2 -b 0.0.0.0:3001 'run:create_app()'
+```
 
 No environment variables are required. In-memory storage is used for simplicity.
