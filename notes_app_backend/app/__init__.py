@@ -1,19 +1,36 @@
 from flask import Flask
 from flask_cors import CORS
-from .routes.health import blp
 from flask_smorest import Api
+from .routes.health import blp as health_blp
+from .routes.notes import blp as notes_blp
 
-
+# Initialize the Flask app
 app = Flask(__name__)
 app.url_map.strict_slashes = False
+
+# CORS setup (open for demo purposes)
 CORS(app, resources={r"/*": {"origins": "*"}})
-app.config["API_TITLE"] = "My Flask API"
+
+# Ocean Professional-themed API documentation metadata
+app.config["API_TITLE"] = "Notes API - Ocean Professional"
 app.config["API_VERSION"] = "v1"
 app.config["OPENAPI_VERSION"] = "3.0.3"
-app.config['OPENAPI_URL_PREFIX'] = '/docs'
+app.config["OPENAPI_URL_PREFIX"] = "/docs"
 app.config["OPENAPI_SWAGGER_UI_PATH"] = ""
 app.config["OPENAPI_SWAGGER_UI_URL"] = "https://cdn.jsdelivr.net/npm/swagger-ui-dist/"
 
+# API tags for organization
+openapi_tags = [
+    {"name": "Health", "description": "Health check route"},
+    {"name": "Notes", "description": "Create, read, update, delete, and search notes"},
+]
+app.config["OPENAPI_TAGS"] = openapi_tags
 
+# Initialize API and register blueprints
 api = Api(app)
-api.register_blueprint(blp)
+api.register_blueprint(health_blp)
+api.register_blueprint(notes_blp)
+
+# Register global error handlers
+from .utils.error_handlers import register_error_handlers
+register_error_handlers(app)
